@@ -13,4 +13,5 @@ describe('RestaurantDataServiceService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
 });
