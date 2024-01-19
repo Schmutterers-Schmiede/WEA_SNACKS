@@ -9,13 +9,17 @@ import { RestaurantListItemComponent } from './shared/components/restaurant-list
 import { RestaurantListComponent } from './shared/components/restaurant-list/restaurant-list.component';
 import { HomeComponent } from './shared/components/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RestaurantMenuComponent } from './shared/components/restaurant-menu/restaurant-menu.component';
+import { MenuListItemComponent } from './shared/components/menu-list-item/menu-list-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RestaurantListItemComponent,
     RestaurantListComponent,
-    HomeComponent
+    HomeComponent,
+    RestaurantMenuComponent,
+    MenuListItemComponent
   ],
   imports: [
     BrowserModule,

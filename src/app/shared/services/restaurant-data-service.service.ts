@@ -20,4 +20,9 @@ export class RestaurantDataService {
     return this.httpClient.get<Restaurant[]>(`${environment.server}/restaurants`)
       .pipe(catchError(this.errorHandler))
   }
+
+  getRestaurantById(id:string): Observable<Restaurant>{
+    return this.httpClient.get<Restaurant>(`${environment.server}/restaurants/${id}`)
+    .pipe(catchError(this.errorHandler));
+  }
 }

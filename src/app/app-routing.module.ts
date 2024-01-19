@@ -2,21 +2,26 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './shared/components/home/home.component';
 import { RestaurantListComponent } from './shared/components/restaurant-list/restaurant-list.component';
+import { RestaurantMenuComponent } from './shared/components/restaurant-menu/restaurant-menu.component';
 
 const routes: Routes = [
   {
     path:'',
-    redirectTo: 'home',
+    redirectTo: 'restaurants',
     pathMatch: 'full',
   },
   {
     path:'intex.html',
-    redirectTo: 'home',
+    redirectTo: 'restaurants',
     pathMatch: 'full'
   },
   {
-    path:'home',
+    path:'restaurants',
     component: RestaurantListComponent
+  },
+  {
+    path:'restaurants/:id',
+    component: RestaurantMenuComponent
   }
 ];
 

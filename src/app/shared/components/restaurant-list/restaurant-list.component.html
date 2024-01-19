@@ -1,3 +1,7 @@
 <div class="w-50 mx-auto mt-5">
-  <app-restaurant-list-item *ngFor="let r of restaurants" [restaurant]="r"></app-restaurant-list-item>
+  <a class="app-restaurant-list-item text-decoration-none"
+    *ngFor="let r of restaurants" 
+    [restaurant]="r"
+    [routerLink]="r.id">
+  </a>
 </div>
