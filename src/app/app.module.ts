@@ -13,6 +13,7 @@ import { RestaurantMenuComponent } from './shared/components/restaurant-menu/res
 import { MenuListItemComponent } from './shared/components/menu-list-item/menu-list-item.component';
 import { ShoppingCartComponent } from './shared/components/shopping-cart/shopping-cart.component';
 import { ShoppingCartItemComponent } from './shared/components/shopping-cart-item/shopping-cart-item.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ShoppingCartItemComponent } from './shared/components/shopping-cart-ite
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

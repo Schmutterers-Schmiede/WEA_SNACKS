@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HomeComponent } from './shared/components/home/home.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,6 @@ import { HomeComponent } from './shared/components/home/home.component';
 })
 export class AppComponent {
   title = 'SNACKS';
+
+  
 }
