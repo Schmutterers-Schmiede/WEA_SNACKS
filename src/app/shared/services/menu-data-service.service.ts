@@ -7,7 +7,7 @@ import { MenuItem } from '../Entities/MenuItem';
 @Injectable({
   providedIn: 'root'
 })
-export class MenuDataServiceService {
+export class MenuDataService {
 
   constructor(
     private httpClient:HttpClient
@@ -21,5 +21,10 @@ export class MenuDataServiceService {
   getAllForRestaurantId(id:string){
     return this.httpClient.get<MenuItem[]>(`${environment.server}/menuItems/forrestaurant/${id}`)
     .pipe(catchError(this.errorHandler))
+  }
+
+  getById(id:string){
+    return this.httpClient.get<MenuItem>(`${environment.server}/menuItems/${id}`)
+    .pipe(catchError(this.errorHandler));
   }
 }

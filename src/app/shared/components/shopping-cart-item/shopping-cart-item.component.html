@@ -1,0 +1,29 @@
+<div class="cartItem card shadow border-0 d-flex justify-content-center my-2 py-2 ">
+  <div class="d-flex align-items-center justify-content-between px-3">
+    <h5>{{cartItem.item.name}}</h5>
+    <div class="d-flex ">
+
+      <button 
+        class="btn btn-secondary d-flex justify-content-center align-items-center rounded-circle my-auto fs-2 me-1"
+        (click)="onMinusClick()">
+        <i class="bi bi-dash"></i>
+      </button>
+
+      <input type="text" [(ngModel)]="cartItem.amount">
+      
+      <button 
+        class="btn btn-secondary d-flex justify-content-center align-items-center rounded-circle my-auto fs-2 ms-1"
+        (click)="onPlusClick()">
+        <i class="bi bi-plus"></i>
+      </button>
+
+      <button 
+        class="btn btn-danger d-flex justify-content-center align-items-center rounded-circle my-auto ms-1"
+        style="font-size: 1.2rem;"
+        (click)="onDeleteClick()">
+        <i class="bi bi-trash3"></i>
+      </button>
+
+    </div>
+  </div>
+</div>

@@ -1,12 +1,12 @@
-<div class="card w-50 mx-auto mt-3 p-2">
+<div class="card w-50 mx-auto mt-3 p-3">
   <label>Menu for</label>
   <h1>{{restaurant.name}}</h1>
   <p class="text-secondary m-0"><strong class="text-dark">Address: </strong> {{restaurant.address}}</p>
   <p class="text-secondary m-0"><strong class="text-dark">Opening Hours: </strong> {{restaurant.hours}}</p>
 </div>
 
-<ul class="card w-50 mx-auto mt-3 p-2">
+<ul class="card shadow w-50 mx-auto mt-3 p-3 list-unstyled">
   <li *ngFor="let item of menu">
-    <app-menu-list-item [menuItem] = "item"></app-menu-list-item>
+    <app-menu-list-item [menuItem] = "item" [restaurantId]="restaurant.id"></app-menu-list-item>
   </li>
 </ul>

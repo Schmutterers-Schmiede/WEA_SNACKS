@@ -1,4 +1,7 @@
+import { MenuItem } from "../Entities/MenuItem";
+
 export interface ShoppingCartItem {
-  id?:string;
+  restaurantId?:string;
+  item:MenuItem;
   amount:number;
 }

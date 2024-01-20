@@ -11,6 +11,9 @@ import { HomeComponent } from './shared/components/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantMenuComponent } from './shared/components/restaurant-menu/restaurant-menu.component';
 import { MenuListItemComponent } from './shared/components/menu-list-item/menu-list-item.component';
+import { ShoppingCartComponent } from './shared/components/shopping-cart/shopping-cart.component';
+import { ShoppingCartItemComponent } from './shared/components/shopping-cart-item/shopping-cart-item.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,13 +22,16 @@ import { MenuListItemComponent } from './shared/components/menu-list-item/menu-l
     RestaurantListComponent,
     HomeComponent,
     RestaurantMenuComponent,
-    MenuListItemComponent
+    MenuListItemComponent,
+    ShoppingCartComponent,
+    ShoppingCartItemComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

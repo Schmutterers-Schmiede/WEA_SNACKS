@@ -3,7 +3,7 @@ import { Restaurant } from '../../Entities/Restaurant';
 import { RestaurantDataService } from '../../services/restaurant-data-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MenuItem } from '../../Entities/MenuItem';
-import { MenuDataServiceService } from '../../services/menu-data-service.service';
+import { MenuDataService } from '../../services/menu-data-service.service';
 
 @Component({
   selector: 'app-restaurant-menu',
@@ -17,7 +17,7 @@ export class RestaurantMenuComponent {
 
   constructor(
     private restaurantDataService: RestaurantDataService,
-    private menuDataService:MenuDataServiceService,
+    private menuDataService:MenuDataService,
     private route: ActivatedRoute
     ){}
 
