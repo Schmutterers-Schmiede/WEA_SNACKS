@@ -7,6 +7,6 @@
 
 <ul class="card w-50 mx-auto mt-3 p-2">
   <li *ngFor="let item of menu">
-    <app-menu-list-item [menuItem] = "item"></app-menu-list-item>
+    <app-menu-list-item [menuItem] = "item" [restaurantId]="restaurant.id"></app-menu-list-item>
   </li>
 </ul>

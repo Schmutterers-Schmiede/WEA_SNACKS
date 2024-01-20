@@ -8,18 +8,32 @@ import { ShoppingCartItem } from '../../interfaces/ShoppingCartItem'
 })
 export class MenuListItemComponent {
   @Input() menuItem:MenuItem = new MenuItem()
+  @Input() restaurantId?:string = '';
 
   addToCart(){
     const data = localStorage.getItem('snacks.shoppinCart') || '[]';
-    const items: ShoppingCartItem[] = JSON.parse(data);
-    const index:number = items.findIndex(item => item.id !== this.menuItem.id);
+    const cart: ShoppingCartItem[] = JSON.parse(data);
+
+    //if item is from different restaurant than the others, show error and return
+    for (let item of cart){
+      if(this.restaurantId !== item.restaurantId){
+        alert("you can only order from one restaurant at a time.");
+        return;
+      }
+    }
+    
+    //if item is already in cart, increase amount, else add to cart
+    const index:number = cart.findIndex(cartItem => cartItem.item.id !== this.menuItem.id);
     if(index === -1){
-      items.push({id: this.menuItem.id, amount: 0});
+      cart.push({
+        restaurantId: this.restaurantId, 
+        item: this.menuItem, 
+        amount: 0});
     }
     else{
-      items[index].amount++;
+      cart[index].amount++;
     }
-    localStorage.setItem('snacks.shoppingCart', JSON.stringify(items));
+    localStorage.setItem('snacks.shoppingCart', JSON.stringify(cart));
   }
   constructor(){}
 }

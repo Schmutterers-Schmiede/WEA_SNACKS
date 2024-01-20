@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './shared/components/home/home.component';
 import { RestaurantListComponent } from './shared/components/restaurant-list/restaurant-list.component';
 import { RestaurantMenuComponent } from './shared/components/restaurant-menu/restaurant-menu.component';
+import { ShoppingCartComponent } from './shared/components/shopping-cart/shopping-cart.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path:'restaurants/:id',
     component: RestaurantMenuComponent
+  },
+  {
+    path:'/cart',
+    component: ShoppingCartComponent
   }
 ];
 
