@@ -9,10 +9,12 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./shopping-cart-item.component.scss']
 })
 export class ShoppingCartItemComponent {
-
+  
   @Input() cartItem:ShoppingCartItem = {restaurantId:'', item: new MenuItem(), amount:0};
   @Output() removeItemEvent: EventEmitter<number> = new EventEmitter<number>();
-
+  @Output() priceChangeEventEvent:EventEmitter<void> = new EventEmitter<void>();
+  
+  public price:number = 0;
   onPlusClick(){
     let cart:ShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
     let index = cart.findIndex(item => item.item.id === this.cartItem.item.id);
@@ -21,6 +23,8 @@ export class ShoppingCartItemComponent {
     cart[index].amount = this.cartItem.amount;
   
     localStorage.setItem('snacks.shoppingCart',JSON.stringify(cart));
+    this.priceChangeEventEvent.emit();
+    this.calculatePrice();
   }
   
   onMinusClick(){
@@ -34,14 +38,24 @@ export class ShoppingCartItemComponent {
       this.cartItem.amount--;
       cart[index].amount = this.cartItem.amount;
       localStorage.setItem('snacks.shoppingCart',JSON.stringify(cart));
+      this.priceChangeEventEvent.emit();
+      this.calculatePrice();
     }
   }
   
+  calculatePrice(){
+    this.price = (this.cartItem.item.price ?? 0) * this.cartItem.amount;
+  }
+
+
   onDeleteClick(){
     let cart:ShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
     let index = cart.findIndex(item => item.item.id === this.cartItem.item.id);
     this.removeItemEvent.emit(index);
   }
 
+  ngOnInit(){
+    this.calculatePrice();
+  }
   
 }

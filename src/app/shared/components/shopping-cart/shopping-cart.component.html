@@ -15,8 +15,9 @@
   <p class="text-secondary"><strong>Ordering from:</strong> {{restaurantName}}</p>
   <ul class="list-unstyled">
     <li *ngFor="let item of shoppingCartItems">
-      <app-shopping-cart-item (removeItemEvent)="handleRemoveItemEvent($event)" [cartItem] = "item"></app-shopping-cart-item>
+      <app-shopping-cart-item (priceChangeEventEvent)="handlePriceChangeEvent()" (removeItemEvent)="handleRemoveItemEvent($event)" [cartItem] = "item"></app-shopping-cart-item>
     </li>
   </ul>
+  <h4 class="text-dark">Total: {{totalPrice | currency: 'EUR':'symbol':'1.2-2' }}</h4>
   <button class="btn btn-primary">Place Order</button>
 </div>

@@ -20,9 +20,15 @@ export class ShoppingCartComponent {
   public shoppingCartItems:ShoppingCartItem[] = [];
   public cartIsEmpty:boolean = false;
   public restaurantName:string = '';
+  public totalPrice:number = 0;
 
   handleRemoveItemEvent(index:number){
     this.removeItemFromCart(index);
+    this.calculateTotalPrice();
+  }
+
+  handlePriceChangeEvent(){
+    this.calculateTotalPrice();
   }
 
   refreshCart(){
@@ -31,12 +37,14 @@ export class ShoppingCartComponent {
     if(this.shoppingCartItems.length === 0){
       this.cartIsEmpty = true;
     }
+    this.calculateTotalPrice();
   }
   
   ngOnInit(){
     this.refreshCart();
     const rid:string = this.shoppingCartItems[0].restaurantId ?? '';
     this.restaurantDataService.getRestaurantById(rid).subscribe(res => this.restaurantName = res.name ?? '');
+    this.calculateTotalPrice();
   }
 
   goBack(){
@@ -48,5 +56,13 @@ export class ShoppingCartComponent {
     localStorage.setItem('snacks.shoppingCart',JSON.stringify(this.shoppingCartItems));
     if(this.shoppingCartItems.length == 0) 
       this.cartIsEmpty = true;
+  }
+
+  calculateTotalPrice(){
+    this.totalPrice = 0;
+    for (const cartItem of this.shoppingCartItems){
+      const price = cartItem.item.price ?? 0;
+      this.totalPrice += price * cartItem.amount;
+    }
   }
 }
