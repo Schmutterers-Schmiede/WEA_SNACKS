@@ -14,6 +14,7 @@ import { MenuListItemComponent } from './shared/components/menu-list-item/menu-l
 import { ShoppingCartComponent } from './shared/components/shopping-cart/shopping-cart.component';
 import { ShoppingCartItemComponent } from './shared/components/shopping-cart-item/shopping-cart-item.component';
 import { FormsModule } from '@angular/forms';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    OAuthModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
