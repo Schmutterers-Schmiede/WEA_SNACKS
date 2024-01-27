@@ -15,6 +15,7 @@ import { ShoppingCartComponent } from './shared/components/shopping-cart/shoppin
 import { ShoppingCartItemComponent } from './shared/components/shopping-cart-item/shopping-cart-item.component';
 import { FormsModule } from '@angular/forms';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { LoginComponent } from './shared/components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     RestaurantMenuComponent,
     MenuListItemComponent,
     ShoppingCartComponent,
-    ShoppingCartItemComponent
+    ShoppingCartItemComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

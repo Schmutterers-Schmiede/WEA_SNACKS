@@ -1,43 +1,71 @@
 import { Injectable } from '@angular/core';
-import { MockUser } from '../Entities/mockUser';
+import { MockUser } from '../Entities/MockUser';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, pipe } from 'rxjs';
+import { BehaviorSubject, Observable, map, pipe } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MockAuthenticationService {
-  private users:MockUser[] = [];
+  private users:MockUser[] = [
+    {
+      "username": "user1",
+      "password": "pw1",
+      "accessToken": "token1"
+    },
+    {
+      "username": "user2",
+      "password": "pw2",
+      "accessToken": "token2"
+    },
+    {
+      "username": "user3",
+      "password": "pw3",
+      "accessToken": "token3"
+    },
+    {
+      "username": "user4",
+      "password": "pw4",
+      "accessToken": "token4"
+    },
+    {
+      "username": "user5",
+      "password": "pw5",
+      "accessToken": "token5"
+    },    
+    {
+      "username": "owner",
+      "password": "owner",
+      "accessToken": "1fbb3c52-815c-11ee-b962-0242ac120002"
+    }
+  ];
   private dataUrl = '../mockData.json';
 
   loggedInUser:MockUser | null = null;
 
-  constructor(private httpClient:HttpClient) { 
-   this.getUserData();
+  constructor() { 
    console.log(`loaded user data: ${this.users}`)
   }
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  isLoggedIn = this.isLoggedInSubject.asObservable();
 
-  private getUserData(): Observable<any>{
-    return this.httpClient.get(this.dataUrl).pipe(
-      map((response: any) => this.users = response.users)
-    );
-  }
-
-  login(username:string, password:string){
+  login(username:string, password:string):boolean{
+    console.log(this.users);
     for (let user of this.users){
       if (user.username === username &&
           user.password === password){
             this.loggedInUser = user;
+            this.isLoggedInSubject.next(true);
+            return true;
           }
+          
       
     }
+    return false;
   }
 
-  private saveUserData(): Observable<any> {
-    return this.httpClient.put(this.dataUrl, { users: this.users });
-  }
 
-  register(username: string, password: string, email: string) {
+  register(username: string, password: string) {
     const newUser: MockUser = {
       username: username,
       password: password,
@@ -45,18 +73,15 @@ export class MockAuthenticationService {
     };
 
     this.users.push(newUser);
-    this.saveUserData().subscribe(() => {
-      console.log(`User ${username} registered successfully.`);
-    });
+    
   }
 
   logout(){
     this.loggedInUser = null;
+    this.isLoggedInSubject.next(false);
   }
 
-  isLoggedIn(){
-    return this.loggedInUser !== null;
-  }
+  
 
   getLoggedInUsername(){
     return this.loggedInUser?.username;
@@ -79,4 +104,5 @@ export class MockAuthenticationService {
     return token;
   }
 
+  
 }
