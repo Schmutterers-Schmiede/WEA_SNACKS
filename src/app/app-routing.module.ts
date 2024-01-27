@@ -4,6 +4,8 @@ import { RestaurantListComponent } from './shared/components/restaurant-list/res
 import { RestaurantMenuComponent } from './shared/components/restaurant-menu/restaurant-menu.component';
 import { ShoppingCartComponent } from './shared/components/shopping-cart/shopping-cart.component';
 import { LoginComponent } from './shared/components/login/login.component';
+import { RegisterComponent } from './shared/components/register/register.component';
+import { RegistrationSuccessComponent } from './shared/components/registration-success/registration-success.component';
 
 const routes: Routes = [
   {
@@ -31,7 +33,16 @@ const routes: Routes = [
   {
     path:'login',
     component: LoginComponent
+  },
+  {
+    path:'register',
+    component: RegisterComponent
+  },
+  {
+    path:'registrationSuccess',
+    component: RegistrationSuccessComponent
   }
+
 ];
 
 @NgModule({
