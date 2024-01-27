@@ -16,6 +16,8 @@ import { ShoppingCartItemComponent } from './shared/components/shopping-cart-ite
 import { FormsModule } from '@angular/forms';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { LoginComponent } from './shared/components/login/login.component';
+import { RegisterComponent } from './shared/components/register/register.component';
+import { RegistrationSuccessComponent } from './shared/components/registration-success/registration-success.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { LoginComponent } from './shared/components/login/login.component';
     MenuListItemComponent,
     ShoppingCartComponent,
     ShoppingCartItemComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    RegistrationSuccessComponent
   ],
   imports: [
     BrowserModule,
