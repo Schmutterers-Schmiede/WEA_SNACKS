@@ -15,6 +15,9 @@
       <li class="nav-item active">
         <a routerLink="restaurants" routerLinkActive="active"  class="nav-link text-dark">Restaurants</a>
       </li>
+      <li class="nav-item active" *ngIf="isLoggedIn">
+        <a routerLink="../userOrders" routerLinkActive="active"  class="nav-link text-dark">My Orders</a>
+      </li>
     </ul>
   </div>
   <button *ngIf="!isLoggedIn" class="btn btn-primary me-3" routerLink="../login">Login</button>

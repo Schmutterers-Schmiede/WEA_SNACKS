@@ -5,6 +5,11 @@ import { ShoppingCartItem } from '../../interfaces/ShoppingCartItem';
 import { Location, } from '@angular/common'
 import { Router } from '@angular/router';
 import { RestaurantDataService } from '../../services/restaurant-data-service.service';
+import { Restaurant } from '../../Entities/Restaurant';
+import { MockAuthenticationService } from '../../services/mock-authentication.service';
+import { OrderMenuItem } from '../../Entities/OrderMenuItem';
+import { Order } from '../../Entities/Order';
+import { OrderDataService } from '../../services/order-data.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -12,15 +17,20 @@ import { RestaurantDataService } from '../../services/restaurant-data-service.se
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent {
+
   constructor(
     private location:Location,
-    private restaurantDataService:RestaurantDataService
+    private restaurantDataService:RestaurantDataService,
+    private authenticationService:MockAuthenticationService,
+    private orderDataService:OrderDataService
   ){}
 
   public shoppingCartItems:ShoppingCartItem[] = [];
   public cartIsEmpty:boolean = false;
-  public restaurantName:string = '';
+  public restaurant:Restaurant = new Restaurant();
   public totalPrice:number = 0;
+  public address:string = '';
+  public errors:string[] = []
 
   handleRemoveItemEvent(index:number){
     this.removeItemFromCart(index);
@@ -43,7 +53,7 @@ export class ShoppingCartComponent {
   ngOnInit(){
     this.refreshCart();
     const rid:string = this.shoppingCartItems[0].restaurantId ?? '';
-    this.restaurantDataService.getRestaurantById(rid).subscribe(res => this.restaurantName = res.name ?? '');
+    this.restaurantDataService.getRestaurantById(rid).subscribe(res => this.restaurant = res);
     this.calculateTotalPrice();
   }
 
@@ -63,6 +73,40 @@ export class ShoppingCartComponent {
     for (const cartItem of this.shoppingCartItems){
       const price = cartItem.item.price ?? 0;
       this.totalPrice += price * cartItem.amount;
+    }
+  }
+
+  submitOrder(){
+    let menuItems:OrderMenuItem[] = [];
+
+    for(let item of this.shoppingCartItems){
+      menuItems.push(new OrderMenuItem(
+        item.item.id ?? '',
+        item.item.name ?? '',
+        item.item.category ?? '',
+        item.item.description ?? '',
+        item.item.price ?? 0,
+        item.amount ?? ''
+      ))
+    }
+
+    if(this.address.length > 0){
+      let order:Order = new Order(
+          '',
+          this.restaurant.id ?? '',
+          this.authenticationService.getAccessToken() ?? '',
+          this.address,
+          'In Preparation',
+          new Date(),
+          menuItems
+      )
+      this.orderDataService.placeOrder(order).subscribe(
+        res => console.log(res)
+      );
+    }
+    else{
+      this.errors = [];
+      this.errors.push('Address is required');
     }
   }
 }

@@ -15,6 +15,7 @@ export class ShoppingCartItemComponent {
   @Output() priceChangeEventEvent:EventEmitter<void> = new EventEmitter<void>();
   
   public price:number = 0;
+
   onPlusClick(){
     let cart:ShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
     let index = cart.findIndex(item => item.item.id === this.cartItem.item.id);
