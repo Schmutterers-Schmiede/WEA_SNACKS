@@ -50,7 +50,6 @@ export class MockAuthenticationService {
   isLoggedIn = this.isLoggedInSubject.asObservable();
 
   login(username:string, password:string):boolean{
-    console.log(this.users);
     for (let user of this.users){
       if (user.username === username &&
           user.password === password){

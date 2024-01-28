@@ -9,6 +9,7 @@ import { ShoppingCartItem } from '../../interfaces/ShoppingCartItem'
 export class MenuListItemComponent {
   @Input() menuItem:MenuItem = new MenuItem()
   @Input() restaurantId?:string = '';
+  @Input() buttonVisible:boolean = true;
 
   addToCart(){
     const data = localStorage.getItem('snacks.shoppingCart') || '[]';
@@ -38,6 +39,11 @@ export class MenuListItemComponent {
     
 
     localStorage.setItem('snacks.shoppingCart', JSON.stringify(cart));
+  }
+
+  ngOnInit(){
+    console.log(this.menuItem);
+    
   }
   constructor(){}
 }

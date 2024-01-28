@@ -6,6 +6,8 @@ import { ShoppingCartComponent } from './shared/components/shopping-cart/shoppin
 import { LoginComponent } from './shared/components/login/login.component';
 import { RegisterComponent } from './shared/components/register/register.component';
 import { RegistrationSuccessComponent } from './shared/components/registration-success/registration-success.component';
+import { UserOrdersComponent } from './shared/components/user-orders/user-orders.component';
+import { OrderDetailsComponent } from './shared/components/order-details/order-details.component';
 
 const routes: Routes = [
   {
@@ -41,7 +43,16 @@ const routes: Routes = [
   {
     path:'registrationSuccess',
     component: RegistrationSuccessComponent
+  },
+  {
+    path: 'userOrders',
+    component: UserOrdersComponent
+  },
+  {
+    path: 'userOrders/:id',
+    component: OrderDetailsComponent
   }
+  
 
 ];
 

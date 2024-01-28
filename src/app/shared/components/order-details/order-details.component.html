@@ -1,0 +1,9 @@
+<div class="card w-50 mx-auto mt-5 p-2">
+  <h2>Order from {{restaurant.name}}</h2>
+  <p class="text-secondary m-0">Placed at: {{order.placedAt | date: 'short'}}</p>
+  <p class="text-secondary m-0">Status: {{order.status}}</p>
+  <app-order-menu-item-list [menuItems]="order.menuItems"></app-order-menu-item-list>
+  <hr>
+  <h4 class="text-dark">Total: {{total | currency: 'EUR':'symbol':'1.2-2' }}</h4>
+  <button class="btn btn-primary mt-2" (click)="goBack()">Go Back</button>
+</div>

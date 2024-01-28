@@ -18,6 +18,11 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { LoginComponent } from './shared/components/login/login.component';
 import { RegisterComponent } from './shared/components/register/register.component';
 import { RegistrationSuccessComponent } from './shared/components/registration-success/registration-success.component';
+import { OrderListItemComponent } from './shared/components/order-list-item/order-list-item.component';
+import { OrderListComponent } from './shared/components/order-list/order-list.component';
+import { UserOrdersComponent } from './shared/components/user-orders/user-orders.component';
+import { OrderDetailsComponent } from './shared/components/order-details/order-details.component';
+import { OrderMenuItemListComponent } from './shared/components/order-menu-item-list/order-menu-item-list.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +36,12 @@ import { RegistrationSuccessComponent } from './shared/components/registration-s
     ShoppingCartItemComponent,
     LoginComponent,
     RegisterComponent,
-    RegistrationSuccessComponent
+    RegistrationSuccessComponent,
+    OrderListItemComponent,
+    OrderListComponent,
+    UserOrdersComponent,
+    OrderDetailsComponent,
+    OrderMenuItemListComponent
   ],
   imports: [
     BrowserModule,
