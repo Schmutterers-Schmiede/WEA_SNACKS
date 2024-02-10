@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { JwksValidationHandler, OAuthService } from 'angular-oauth2-oidc';
 import { authConfig } from './auth.config';
 import { MockAuthenticationService } from './shared/services/mock-authentication.service';
+import { AuthenticationService } from './shared/services/authentication.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,28 +13,19 @@ import { Subscription } from 'rxjs';
 export class AppComponent {
   title = 'SNACKS';
   isLoggedIn!:boolean;
-  private loginSubscription!:Subscription;
   username!:string;
 
   constructor(
     private oauthService:OAuthService, 
-    //private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
     private mockAuthenticationService:MockAuthenticationService
     ){
     this.configureWithNewConfigApi(); 
     console.log('appcomponent constructor')
   }
-  
-  ngOnInit(){
-    this.loginSubscription = this.mockAuthenticationService.isLoggedIn.subscribe(
-      (value) => {
-        this.isLoggedIn = value;
-        if(this.isLoggedIn){
-          this.username = this.mockAuthenticationService.getLoggedInUsername() ?? '';
-        }
-      }
-    )
-    console.log('ngOnInit in appComponent')
+
+  handleLoginClick(){
+    this.authenticationService.login();
   }
 
   handleLogoutClick(){

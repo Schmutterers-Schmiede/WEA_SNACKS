@@ -1,32 +1,51 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { Observable, Subject } from 'rxjs';
 
+export interface UserInfo{
+  info: {
+    name:string;
+  }
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   
-  constructor(private oauthService: OAuthService){}
-
-  login(){
-    this.oauthService.initCodeFlow();  
+  constructor(private oauthService: OAuthService){
 
   }
 
-  getUserName(){
-    const accessToken:string = this.getAccessToken();
+  userProfileSubject = new Subject<UserInfo>()
+  userInfo!:UserInfo
 
-    const headers = new HttpHeaders({
+  login(){
+    this.oauthService.initCodeFlow();  
+  }
 
-      Authorization: `Bearer ${accessToken}`
-    });
-    
+  logout(){
+    this.oauthService.logOut();
+  }
 
+  isLoggedIn(){
+    return this.oauthService.hasValidAccessToken();
+  }
+
+  getLoggedInUserName(): Promise<string> {
+    return this.oauthService.loadUserProfile().then(
+      res => (res as UserInfo).info.name
+    )
   }
 
   getAccessToken():string{
     return this.oauthService.getAccessToken();
   }
+
+  register(username:string, password:string){
+
+  }
+
+
 }

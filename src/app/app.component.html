@@ -20,7 +20,7 @@
       </li>
     </ul>
   </div>
-  <button *ngIf="!isLoggedIn" class="btn btn-primary me-3" routerLink="../login">Login</button>
+  <button *ngIf="!isLoggedIn" class="btn btn-primary me-3" (click)="handleLoginClick()">Login</button>
   
   <div *ngIf="isLoggedIn" class="d-flex me-3">
     <p class="text my-auto me-3" >Logged in as <strong class="text text-dark">{{username}}</strong></p>
