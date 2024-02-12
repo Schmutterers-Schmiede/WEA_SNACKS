@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { JwksValidationHandler, OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { authConfig } from './auth.config';
 import { MockAuthenticationService } from './shared/services/mock-authentication.service';
 import { AuthenticationService } from './shared/services/authentication.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +17,7 @@ export class AppComponent {
 
   constructor(
     private oauthService:OAuthService, 
-    private authenticationService: AuthenticationService,
-    private mockAuthenticationService:MockAuthenticationService
+    private authenticationService: AuthenticationService,    
     ){
     this.configureWithNewConfigApi(); 
     console.log('appcomponent constructor')
@@ -29,13 +28,20 @@ export class AppComponent {
   }
 
   handleLogoutClick(){
-    this.mockAuthenticationService.logout();
+    this.authenticationService.logout();
   }
 
   private configureWithNewConfigApi() {
     this.oauthService.configure(authConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
+  }
+
+  ngOnInit(){
+      let name = this.authenticationService.getLoggedInUserName();
+      console.log(name);
+      this.username = name
+      this.isLoggedIn = this.authenticationService.isLoggedIn();
   }
   
 }

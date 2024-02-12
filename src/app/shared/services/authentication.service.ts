@@ -15,11 +15,10 @@ export interface UserInfo{
 export class AuthenticationService {
   
   constructor(private oauthService: OAuthService){
-
+    
   }
 
-  userProfileSubject = new Subject<UserInfo>()
-  userInfo!:UserInfo
+  username:string = '';
 
   login(){
     this.oauthService.initCodeFlow();  
@@ -33,19 +32,16 @@ export class AuthenticationService {
     return this.oauthService.hasValidAccessToken();
   }
 
-  getLoggedInUserName(): Promise<string> {
-    return this.oauthService.loadUserProfile().then(
-      res => (res as UserInfo).info.name
-    )
+  getLoggedInUserName(){
+    let userClaims: any = this.getIdentityClaims();
+    return userClaims.name ? userClaims.name : '';
   }
 
-  getAccessToken():string{
-    return this.oauthService.getAccessToken();
+  getIdentityClaims():string{
+    let claims: any = this.oauthService.getIdentityClaims();
+    return claims ? claims: null;
   }
 
-  register(username:string, password:string){
-
-  }
-
+  
 
 }
