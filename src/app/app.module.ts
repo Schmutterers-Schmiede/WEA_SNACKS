@@ -15,9 +15,6 @@ import { ShoppingCartComponent } from './shared/components/shopping-cart/shoppin
 import { ShoppingCartItemComponent } from './shared/components/shopping-cart-item/shopping-cart-item.component';
 import { FormsModule } from '@angular/forms';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { LoginComponent } from './shared/components/login/login.component';
-import { RegisterComponent } from './shared/components/register/register.component';
-import { RegistrationSuccessComponent } from './shared/components/registration-success/registration-success.component';
 import { OrderListItemComponent } from './shared/components/order-list-item/order-list-item.component';
 import { OrderListComponent } from './shared/components/order-list/order-list.component';
 import { UserOrdersComponent } from './shared/components/user-orders/user-orders.component';
@@ -34,9 +31,6 @@ import { OrderMenuItemListComponent } from './shared/components/order-menu-item-
     MenuListItemComponent,
     ShoppingCartComponent,
     ShoppingCartItemComponent,
-    LoginComponent,
-    RegisterComponent,
-    RegistrationSuccessComponent,
     OrderListItemComponent,
     OrderListComponent,
     UserOrdersComponent,

@@ -6,10 +6,10 @@ import { Location, } from '@angular/common'
 import { Router } from '@angular/router';
 import { RestaurantDataService } from '../../services/restaurant-data-service.service';
 import { Restaurant } from '../../Entities/Restaurant';
-import { MockAuthenticationService } from '../../services/mock-authentication.service';
 import { OrderMenuItem } from '../../Entities/OrderMenuItem';
 import { Order } from '../../Entities/Order';
 import { OrderDataService } from '../../services/order-data.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -19,94 +19,100 @@ import { OrderDataService } from '../../services/order-data.service';
 export class ShoppingCartComponent {
 
   constructor(
-    private location:Location,
-    private restaurantDataService:RestaurantDataService,
-    private authenticationService:MockAuthenticationService,
-    private orderDataService:OrderDataService
-  ){}
+    private location: Location,
+    private restaurantDataService: RestaurantDataService,
+    private authenticationService: AuthenticationService,
+    private orderDataService: OrderDataService
+  ) { }
 
-  public shoppingCartItems:ShoppingCartItem[] = [];
-  public cartIsEmpty:boolean = false;
-  public restaurant:Restaurant = new Restaurant();
-  public totalPrice:number = 0;
-  public address:string = '';
-  public errors:string[] = []
+  public shoppingCartItems: ShoppingCartItem[] = [];
+  public cartIsEmpty: boolean = false;
+  public restaurant: Restaurant = new Restaurant();
+  public totalPrice: number = 0;
+  public address: string = '';
+  public errors: string[] = []
 
-  handleRemoveItemEvent(index:number){
+  handleRemoveItemEvent(index: number) {
     this.removeItemFromCart(index);
     this.calculateTotalPrice();
   }
 
-  handlePriceChangeEvent(){
+  handlePriceChangeEvent() {
     this.calculateTotalPrice();
   }
 
-  refreshCart(){
+  refreshCart() {
     this.shoppingCartItems = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
-    
-    if(this.shoppingCartItems.length === 0){
+
+    if (this.shoppingCartItems.length === 0) {
       this.cartIsEmpty = true;
     }
     this.calculateTotalPrice();
   }
-  
-  ngOnInit(){
+
+  ngOnInit() {
     this.refreshCart();
-    const rid:string = this.shoppingCartItems[0].restaurantId ?? '';
+    const rid: string = this.shoppingCartItems[0].restaurantId ?? '';
     this.restaurantDataService.getRestaurantById(rid).subscribe(res => this.restaurant = res);
     this.calculateTotalPrice();
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
   }
 
-  removeItemFromCart(index:number){    
+  removeItemFromCart(index: number) {
     this.shoppingCartItems.splice(index, 1)
-    localStorage.setItem('snacks.shoppingCart',JSON.stringify(this.shoppingCartItems));
-    if(this.shoppingCartItems.length == 0) 
+    localStorage.setItem('snacks.shoppingCart', JSON.stringify(this.shoppingCartItems));
+    if (this.shoppingCartItems.length == 0)
       this.cartIsEmpty = true;
   }
 
-  calculateTotalPrice(){
+  calculateTotalPrice() {
     this.totalPrice = 0;
-    for (const cartItem of this.shoppingCartItems){
+    for (const cartItem of this.shoppingCartItems) {
       const price = cartItem.item.price ?? 0;
       this.totalPrice += price * cartItem.amount;
     }
   }
 
-  submitOrder(){
-    let menuItems:OrderMenuItem[] = [];
+  submitOrder() {
+    if (!this.authenticationService.isLoggedIn()) {
 
-    for(let item of this.shoppingCartItems){
-      menuItems.push(new OrderMenuItem(
-        item.item.id ?? '',
-        item.item.name ?? '',
-        item.item.category ?? '',
-        item.item.description ?? '',
-        item.item.price ?? 0,
-        item.amount ?? ''
-      ))
-    }
+      let menuItems: OrderMenuItem[] = [];
 
-    if(this.address.length > 0){
-      let order:Order = new Order(
+      for (let item of this.shoppingCartItems) {
+        menuItems.push(new OrderMenuItem(
+          item.item.id ?? '',
+          item.item.name ?? '',
+          item.item.category ?? '',
+          item.item.description ?? '',
+          item.item.price ?? 0,
+          item.amount ?? ''
+        ))
+      }
+
+      if (this.address.length > 0) {
+        let order: Order = new Order(
           '',
           this.restaurant.id ?? '',
-          this.authenticationService.getAccessToken() ?? '',
+          this.authenticationService.getLoggedInUserName() ?? '',
           this.address,
           'In Preparation',
           new Date(),
           menuItems
-      )
-      this.orderDataService.placeOrder(order).subscribe(
-        res => console.log(res)
-      );
-    }
-    else{
+        )
+        this.orderDataService.placeOrder(order).subscribe(
+          res => console.log(res)
+        );
+      }
+      else {
+        this.errors = [];
+        this.errors.push('Address is required');
+      }
+    }else{
       this.errors = [];
-      this.errors.push('Address is required');
+      this.errors.push('You must be logged in to place an order.');
     }
   }
 }

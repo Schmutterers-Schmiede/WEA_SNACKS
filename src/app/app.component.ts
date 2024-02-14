@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { authConfig } from './auth.config';
-import { MockAuthenticationService } from './shared/services/mock-authentication.service';
 import { AuthenticationService } from './shared/services/authentication.service';
 
 @Component({
