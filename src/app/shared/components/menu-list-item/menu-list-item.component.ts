@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MenuItem } from '../../Entities/MenuItem';
-import { ShoppingCartItem } from '../../interfaces/ShoppingCartItem'
+import { IShoppingCartItem } from '../../interfaces/IShoppingCartItem'
 @Component({
   selector: 'app-menu-list-item',
   templateUrl: './menu-list-item.component.html',
@@ -13,7 +13,7 @@ export class MenuListItemComponent {
 
   addToCart(){
     const data = localStorage.getItem('snacks.shoppingCart') || '[]';
-    const cart: ShoppingCartItem[] = JSON.parse(data);
+    const cart: IShoppingCartItem[] = JSON.parse(data);
 
     //if item is from different restaurant than the others, show error and return
     if(!(cart.length === 0)){

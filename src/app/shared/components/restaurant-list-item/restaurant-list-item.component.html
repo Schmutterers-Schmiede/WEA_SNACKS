@@ -1,7 +1,12 @@
-<div class="card shadow border-0 m-2">
+<div class="card shadow border-0 m-2 d-flex flex-row">
+
   <div class="card-body">
     <h4 class="card-title">{{restaurant.name}}</h4>
     <div class="card-text">{{restaurant.address}}</div>
     <div class="extra">Opening hours: {{restaurant.hours}}</div>
+  </div>
+
+  <div class="card-body text-end">
+    <p class="text-success">{{restaurant.distance | number: '1.2-2'}} km</p>
   </div>
 </div>

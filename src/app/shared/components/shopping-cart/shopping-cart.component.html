@@ -18,6 +18,8 @@
       <app-shopping-cart-item (priceChangeEventEvent)="handlePriceChangeEvent()" (removeItemEvent)="handleRemoveItemEvent($event)" [cartItem] = "item"></app-shopping-cart-item>
     </li>
   </ul>
+  <p class="text-secondary m-0">Sum: {{itemsPrice | currency: 'EUR':'symbol':'1.2-2' }}</p>
+  <p class="text-secondary m-0">Delivery cost: {{deliveryCost | currency: 'EUR':'symbol':'1.2-2' }}</p>
   <h4 class="text-dark">Total: {{totalPrice | currency: 'EUR':'symbol':'1.2-2' }}</h4>
 
   <hr>
