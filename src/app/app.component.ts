@@ -3,6 +3,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { authConfig } from './auth.config';
 import { AuthenticationService } from './shared/services/authentication.service';
+import { RestaurantDataService } from './shared/services/restaurant-data-service.service';
 
 @Component({
   selector: 'app-root',
@@ -11,22 +12,24 @@ import { AuthenticationService } from './shared/services/authentication.service'
 })
 export class AppComponent {
   title = 'SNACKS';
-  isLoggedIn!:boolean;
-  username!:string;
+  isLoggedIn!: boolean;
+  username!: string;
+  hasRestaurant: boolean = false;
 
   constructor(
-    private oauthService:OAuthService, 
-    private authenticationService: AuthenticationService,    
-    ){
-    this.configureWithNewConfigApi(); 
+    private restaurantDataService: RestaurantDataService,
+    private oauthService: OAuthService,
+    private authenticationService: AuthenticationService,
+  ) {
+    this.configureWithNewConfigApi();
     console.log('appcomponent constructor')
   }
 
-  handleLoginClick(){
+  handleLoginClick() {
     this.authenticationService.login();
   }
 
-  handleLogoutClick(){
+  handleLogoutClick() {
     this.authenticationService.logout();
   }
 
@@ -36,11 +39,18 @@ export class AppComponent {
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
 
-  ngOnInit(){
-      let name = this.authenticationService.getLoggedInUserName();
-      console.log(name);
-      this.username = name
-      this.isLoggedIn = this.authenticationService.isLoggedIn();
+  ngOnInit() {
+    let name = this.authenticationService.getLoggedInUserName();
+    console.log(name);
+    this.username = name
+    this.isLoggedIn = this.authenticationService.isLoggedIn();
+    if (this.isLoggedIn) {
+      this.restaurantDataService.restaurantExistsForUser(this.username).subscribe((res) => {
+        this.hasRestaurant = res;        
+        console.log('has restaurant: ', res);
+        
+      });
+    }
   }
-  
+
 }

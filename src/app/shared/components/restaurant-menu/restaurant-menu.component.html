@@ -2,7 +2,15 @@
   <label>Menu for</label>
   <h1>{{restaurant.name}}</h1>
   <p class="text-secondary m-0"><strong class="text-dark">Address: </strong> {{restaurant.address}}</p>
-  <p class="text-secondary m-0"><strong class="text-dark">Opening Hours: </strong> {{restaurant.hours}}</p>
+  <p class="text-secondary"><strong class="text-dark">Opening Hours: </strong> {{restaurant.hours}}</p>
+  <p class="text-tark fw-bold m-0">Delivery Conditions:</p>
+
+  <div *ngIf="restaurant.offersDelivery">
+    <p class="text-secondary m-0">We deliver orders starting at: <strong>{{restaurant.minOrderTotal | currency: 'EUR':'symbol':'1.2-2'}}</strong> </p>
+    <p class="m-0" *ngFor="let dc of restaurant.deliveryConditions">>{{dc.distance}} km -> {{dc.deliveryCost | currency: 'EUR':'symbol':'1.2-2'}}</p>
+  </div>
+
+  <p *ngIf="!restaurant.offersDelivery" class="text-secondary">Pickup Only!</p>
 </div>
 
 <ul class="card shadow w-50 mx-auto mt-3 p-3 list-unstyled">

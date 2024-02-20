@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ShoppingCartItem } from '../../interfaces/ShoppingCartItem'
+import { IShoppingCartItem } from '../../interfaces/IShoppingCartItem'
 import { MenuItem } from '../../Entities/MenuItem';
 import { FormsModule } from '@angular/forms';
 
@@ -10,14 +10,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class ShoppingCartItemComponent {
   
-  @Input() cartItem:ShoppingCartItem = {restaurantId:'', item: new MenuItem(), amount:0};
+  @Input() cartItem:IShoppingCartItem = {restaurantId:'', item: new MenuItem(), amount:0};
   @Output() removeItemEvent: EventEmitter<number> = new EventEmitter<number>();
   @Output() priceChangeEventEvent:EventEmitter<void> = new EventEmitter<void>();
   
   public price:number = 0;
 
   onPlusClick(){
-    let cart:ShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
+    let cart:IShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
     let index = cart.findIndex(item => item.item.id === this.cartItem.item.id);
     
     this.cartItem.amount++;
@@ -29,7 +29,7 @@ export class ShoppingCartItemComponent {
   }
   
   onMinusClick(){
-    let cart:ShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
+    let cart:IShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
     let index = cart.findIndex(item => item.item.id === this.cartItem.item.id);
 
     if(this.cartItem.amount == 1){
@@ -50,7 +50,7 @@ export class ShoppingCartItemComponent {
 
 
   onDeleteClick(){
-    let cart:ShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
+    let cart:IShoppingCartItem[] = JSON.parse(localStorage.getItem('snacks.shoppingCart') ?? '[]');
     let index = cart.findIndex(item => item.item.id === this.cartItem.item.id);
     this.removeItemEvent.emit(index);
   }

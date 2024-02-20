@@ -1,7 +1,7 @@
 import { DeliveryCondition } from "./DeliveryCondition";
 
-export class Restaurant{
-  
+export class Restaurant{  
+  distance?:number;
   constructor(  public id?:string,
                 public name?:string,
                 public address?:string,
@@ -11,6 +11,6 @@ export class Restaurant{
                 public minOrderTotal?:number,
                 public logo?:string,
                 public offersDelivery?:boolean,
-                public deliveryCoditions?:DeliveryCondition[]
+                public deliveryConditions?:DeliveryCondition[]
     ){}
 }
