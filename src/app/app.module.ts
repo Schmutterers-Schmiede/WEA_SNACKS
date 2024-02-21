@@ -4,6 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { HttpClientModule } from '@angular/common/http';
 import { RestaurantListItemComponent } from './shared/components/restaurant-list-item/restaurant-list-item.component';
 import { RestaurantListComponent } from './shared/components/restaurant-list/restaurant-list.component';
@@ -20,6 +22,8 @@ import { OrderListComponent } from './shared/components/order-list/order-list.co
 import { UserOrdersComponent } from './shared/components/user-orders/user-orders.component';
 import { OrderDetailsComponent } from './shared/components/order-details/order-details.component';
 import { OrderMenuItemListComponent } from './shared/components/order-menu-item-list/order-menu-item-list.component';
+import { RestaurantManagementComponent } from './shared/components/restaurant-management/restaurant-management.component';
+import { RestaurantEditComponent } from './shared/components/restaurant-edit/restaurant-edit.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { OrderMenuItemListComponent } from './shared/components/order-menu-item-
     OrderListComponent,
     UserOrdersComponent,
     OrderDetailsComponent,
-    OrderMenuItemListComponent
+    OrderMenuItemListComponent,
+    RestaurantManagementComponent,
+    RestaurantEditComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +49,7 @@ import { OrderMenuItemListComponent } from './shared/components/order-menu-item-
     HttpClientModule,
     NgbModule,
     FormsModule,
+    ReactiveFormsModule,
     OAuthModule.forRoot()
   ],
   providers: [],

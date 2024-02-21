@@ -21,16 +21,19 @@ export class AppComponent {
     private oauthService: OAuthService,
     private authenticationService: AuthenticationService,
   ) {
-    this.configureWithNewConfigApi();
-    console.log('appcomponent constructor')
+    this.configureWithNewConfigApi();    
   }
 
   handleLoginClick() {
     this.authenticationService.login();
+    this.isLoggedIn = this.authenticationService.isLoggedIn();
   }
 
   handleLogoutClick() {
     this.authenticationService.logout();
+    this.isLoggedIn = false;
+    this.hasRestaurant = false;
+    this.username = '';
   }
 
   private configureWithNewConfigApi() {
@@ -40,15 +43,12 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    let name = this.authenticationService.getLoggedInUserName();
-    console.log(name);
+    let name = this.authenticationService.getLoggedInUserName();    
     this.username = name
     this.isLoggedIn = this.authenticationService.isLoggedIn();
     if (this.isLoggedIn) {
       this.restaurantDataService.restaurantExistsForUser(this.username).subscribe((res) => {
         this.hasRestaurant = res;        
-        console.log('has restaurant: ', res);
-        
       });
     }
   }
