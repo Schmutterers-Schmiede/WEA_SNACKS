@@ -4,6 +4,7 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { authConfig } from './auth.config';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { RestaurantDataService } from './shared/services/restaurant-data-service.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent {
     private restaurantDataService: RestaurantDataService,
     private oauthService: OAuthService,
     private authenticationService: AuthenticationService,
+    private router:Router
   ) {
     this.configureWithNewConfigApi();    
   }
@@ -42,7 +44,12 @@ export class AppComponent {
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
 
-  ngOnInit() {
+  ngOnInit() {    
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+        this.ngOnInit();
+      }
+    })
     let name = this.authenticationService.getLoggedInUserName();    
     this.username = name
     this.isLoggedIn = this.authenticationService.isLoggedIn();

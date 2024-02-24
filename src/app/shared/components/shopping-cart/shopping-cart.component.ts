@@ -12,7 +12,7 @@ import { OrderDataService } from '../../services/order-data.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ILocation } from '../../interfaces/ILocation';
 import { convertDistance, getDistance } from 'geolib';
-import { DeliveryCondition } from '../../Entities/DeliveryCondition';
+
 
 @Component({
   selector: 'app-shopping-cart',

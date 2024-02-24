@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Restaurant } from '../Entities/Restaurant';
-import { Observable, catchError, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, from, of } from 'rxjs';
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
 import { getDistance, convertDistance} from 'geolib';
 import { map } from 'rxjs';
@@ -77,5 +77,21 @@ export class RestaurantDataService {
   getRestaurantForUsername(username:string): Observable<Restaurant>{
     return this.httpClient.get<Restaurant>(`${environment.server}/restaurants/forUser/${username}`)
     .pipe(catchError(this.errorHandler));
+  }
+
+  updateRestaurant(restaurant: Restaurant): Observable<boolean> {
+    return this.httpClient.put(`${environment.server}/restaurants/${restaurant.id}`, restaurant, { observe: 'response' })
+      .pipe(
+        map((res: HttpResponse<any>) => res.status === 204),
+        catchError(this.errorHandler)
+      );
+  }
+
+  deleteRestaurant(id:string): Observable<boolean>{
+    return this.httpClient.delete(`${environment.server}/restaurants/${id}`,{ observe: 'response' })
+      .pipe(
+        map((res: HttpResponse<any>) => res.status === 204),
+        catchError(this.errorHandler)
+      );
   }
 }
