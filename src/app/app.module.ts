@@ -25,6 +25,7 @@ import { RestaurantManagementComponent } from './shared/components/restaurant-ma
 import { RestaurantEditComponent } from './shared/components/restaurant-edit/restaurant-edit.component';
 import { DeliveryConditionEditComponent } from './shared/components/delivery-condition-edit/delivery-condition-edit.component';
 import { DeliveryConditionListItemComponent } from './shared/components/delivery-condition-list-item/delivery-condition-list-item.component';
+import { RestaurantOrdersComponent } from './shared/components/restaurant-orders/restaurant-orders.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DeliveryConditionListItemComponent } from './shared/components/delivery
     RestaurantManagementComponent,
     RestaurantEditComponent,
     DeliveryConditionEditComponent,
-    DeliveryConditionListItemComponent
+    DeliveryConditionListItemComponent,
+    RestaurantOrdersComponent
   ],
   imports: [
     BrowserModule,

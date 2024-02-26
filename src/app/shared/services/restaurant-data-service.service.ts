@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Restaurant } from '../Entities/Restaurant';
 import { Observable, catchError, from, of } from 'rxjs';
-import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment'
 import { getDistance, convertDistance } from 'geolib';
 import { map } from 'rxjs';
@@ -30,17 +30,11 @@ export class RestaurantDataService {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        console.log(position);
+        this.longitude = position.coords.longitude;        
       });
     } else {
       console.log('geolocation not supported');
     }
-  }
-
-  getOrdersForUser(username:string):Observable<Order[]>{
-    return this.httpClient.get<Order[]>(`${environment.server}/orders/forUser/${username}`)
-      .pipe(catchError(this.errorHandler));
   }
 
   getAllRestaurants(): Observable<Restaurant[]> {

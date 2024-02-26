@@ -29,6 +29,10 @@ export class RestaurantManagementComponent {
     this.router.navigate(['editDeliveryConditions'], {relativeTo: this.route});
   }
 
+  handleManageOrdersClick(){
+    this.router.navigate(['manageOrders'], {relativeTo: this.route})
+  }
+
   ngOnInit(){
     this.restaurantDataService.getRestaurantForUsername(this.authenticationService.getLoggedInUserName())
       .subscribe((res) => {
