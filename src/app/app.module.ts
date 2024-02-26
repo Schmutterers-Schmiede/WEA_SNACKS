@@ -9,7 +9,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RestaurantListItemComponent } from './shared/components/restaurant-list-item/restaurant-list-item.component';
 import { RestaurantListComponent } from './shared/components/restaurant-list/restaurant-list.component';
-import { HomeComponent } from './shared/components/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantMenuComponent } from './shared/components/restaurant-menu/restaurant-menu.component';
 import { MenuListItemComponent } from './shared/components/menu-list-item/menu-list-item.component';
@@ -24,13 +23,15 @@ import { OrderDetailsComponent } from './shared/components/order-details/order-d
 import { OrderMenuItemListComponent } from './shared/components/order-menu-item-list/order-menu-item-list.component';
 import { RestaurantManagementComponent } from './shared/components/restaurant-management/restaurant-management.component';
 import { RestaurantEditComponent } from './shared/components/restaurant-edit/restaurant-edit.component';
+import { DeliveryConditionEditComponent } from './shared/components/delivery-condition-edit/delivery-condition-edit.component';
+import { DeliveryConditionListItemComponent } from './shared/components/delivery-condition-list-item/delivery-condition-list-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RestaurantListItemComponent,
     RestaurantListComponent,
-    HomeComponent,
+    
     RestaurantMenuComponent,
     MenuListItemComponent,
     ShoppingCartComponent,
@@ -41,7 +42,9 @@ import { RestaurantEditComponent } from './shared/components/restaurant-edit/res
     OrderDetailsComponent,
     OrderMenuItemListComponent,
     RestaurantManagementComponent,
-    RestaurantEditComponent
+    RestaurantEditComponent,
+    DeliveryConditionEditComponent,
+    DeliveryConditionListItemComponent
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,7 @@ import { UserOrdersComponent } from './shared/components/user-orders/user-orders
 import { OrderDetailsComponent } from './shared/components/order-details/order-details.component';
 import { RestaurantManagementComponent } from './shared/components/restaurant-management/restaurant-management.component';
 import { RestaurantEditComponent } from './shared/components/restaurant-edit/restaurant-edit.component';
+import { DeliveryConditionEditComponent } from './shared/components/delivery-condition-edit/delivery-condition-edit.component';
 
 const routes: Routes = [
   {
@@ -43,8 +44,8 @@ const routes: Routes = [
     path: 'RestaurantManagement',
     component: RestaurantManagementComponent,
     children: [
-      {path: 'editRestaurant', component: RestaurantEditComponent}
-
+      {path: 'editRestaurant', component: RestaurantEditComponent},
+      {path: 'editDeliveryConditions', component: DeliveryConditionEditComponent}
     ]
   }
   

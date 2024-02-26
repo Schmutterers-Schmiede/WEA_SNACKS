@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 })
 export class RestaurantEditComponent {
 
-  isUpdatingRestaurant: boolean = false;
   restaurant: Restaurant = new Restaurant();
   restaurantEditForm!: FormGroup;
   errors: { [key: string]: string } = {};
@@ -101,7 +100,6 @@ export class RestaurantEditComponent {
   ngOnInit() {
     const username: string = this.authenticationService.getLoggedInUserName();
     if (username) {
-      this.isUpdatingRestaurant = true;
       this.restaurantDataService.getRestaurantForUsername(username).subscribe(
         (res) => {
           this.restaurant = res;

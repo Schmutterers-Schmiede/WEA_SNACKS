@@ -29,6 +29,11 @@ export class AppComponent {
   handleLoginClick() {
     this.authenticationService.login();
     this.isLoggedIn = this.authenticationService.isLoggedIn();
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+        this.ngOnInit();
+      }
+    })
   }
 
   handleLogoutClick() {
@@ -44,12 +49,18 @@ export class AppComponent {
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
 
+  private handleTokenReceived() {
+    this.isLoggedIn = this.authenticationService.isLoggedIn();
+    this.username = this.authenticationService.getLoggedInUserName();
+    if (this.isLoggedIn) {
+      this.restaurantDataService.restaurantExistsForUser(this.username).subscribe((res) => {
+        this.hasRestaurant = res;
+      });
+    }
+  }
+  
   ngOnInit() {    
-    this.router.events.subscribe(event => {
-      if(event instanceof NavigationEnd){
-        this.ngOnInit();
-      }
-    })
+    
     let name = this.authenticationService.getLoggedInUserName();    
     this.username = name
     this.isLoggedIn = this.authenticationService.isLoggedIn();

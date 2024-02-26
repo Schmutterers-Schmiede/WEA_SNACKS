@@ -21,9 +21,14 @@ export class RestaurantManagementComponent {
 
   restaurant!:Restaurant;
 
-  handleMyRestaurantButtonClick(){
+  handleEditRestaurantClick(){
     this.router.navigate(['editRestaurant'], {relativeTo: this.route});
   }
+
+  handleEditDeliveryConditionsClick(){
+    this.router.navigate(['editDeliveryConditions'], {relativeTo: this.route});
+  }
+
   ngOnInit(){
     this.restaurantDataService.getRestaurantForUsername(this.authenticationService.getLoggedInUserName())
       .subscribe((res) => {

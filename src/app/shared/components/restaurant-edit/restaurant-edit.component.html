@@ -29,7 +29,7 @@
     <div class="form-group mb-3">
       <label>GPS Latitude:</label>
       <input  name="latitude"
-              type="text" 
+              type="number" 
               [(ngModel)]="restaurant.latitude"
               class="form-control">
       <div *ngIf="errors['latitude']">
@@ -40,7 +40,7 @@
     <div class="form-group mb-3">
       <label>GPS Longitude:</label>
       <input  name="longitude"
-              type="text" 
+              type="number" 
               [(ngModel)]="restaurant.longitude"
               class="form-control">
       <div *ngIf="errors['longitude']">
@@ -64,7 +64,7 @@
   <div class="form-group mb-3">
     <label>Minimum order total:</label>
     <input  name="minOrderTotal"    
-            type="text" 
+            type="number" 
             (change)="handleChange()"
             [(ngModel)]="restaurant.minOrderTotal"
             class="form-control">

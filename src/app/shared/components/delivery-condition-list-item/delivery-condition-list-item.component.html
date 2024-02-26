@@ -1,0 +1,25 @@
+<div class="card p-2 shadow border-0 grid container">
+  <div class="row row-cols-2 mb-2">
+    <div class="form-group d-flex justify-content-between mb-2">
+      <label>Distance in km:</label>
+      <input type="number" [(ngModel)]="deliveryCondition.distance">
+    </div>
+    <div class="form-group d-flex justify-content-between mb-2">
+      <label>Delivery Cost:</label>
+      <input type="number" [(ngModel)]="deliveryCondition.deliveryCost">
+    </div>
+    <div class="form-group d-flex justify-content-between">
+      <label>minimum Order total:</label>
+      <input type="number" [(ngModel)]="deliveryCondition.minOrderTotal">
+    </div>
+    <div class="form-group d-flex justify-content-between">
+      <label>Free delivery at:</label>
+      <input type="number" [(ngModel)]="deliveryCondition.FreeDeliveryMinTotal">
+    </div>
+  </div>
+  <div class="d-flex justify-content-between">
+    <button class="btn btn-secondary w-50 me-2" (click)="handleUpdateClick()">Update</button>
+    <button class="btn btn-danger w-50" (click)="handleDeleteClick()">Delete</button>
+  </div>
+</div>
+
