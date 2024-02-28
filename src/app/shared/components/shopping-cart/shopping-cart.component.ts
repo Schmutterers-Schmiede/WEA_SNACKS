@@ -27,7 +27,7 @@ export class ShoppingCartComponent {
     private authenticationService: AuthenticationService,
     private orderDataService: OrderDataService,
     private currencyPipe: CurrencyPipe,
-    private router:Router
+    private router: Router
   ) { }
 
   public shoppingCartItems: IShoppingCartItem[] = [];
@@ -35,24 +35,24 @@ export class ShoppingCartComponent {
   public restaurant: Restaurant = new Restaurant();
   public address: string = '';
   public errors: string[] = []
-  
-  
-  userLocation!:ILocation;
+
+
+  userLocation!: ILocation;
   public totalPrice: number = 0;
   public itemsPrice: number = 0;
   public deliveryCost: number = 0;
 
-  getUserLocation(){
-    if(navigator.geolocation){
+  getUserLocation() {
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.userLocation = {
-          latitude : position.coords.latitude,
-          longitude : position.coords.longitude
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
         }
         console.log(position);
       });
     } else {
-      console.log('geolocation not supported');      
+      console.log('geolocation not supported');
     }
   }
 
@@ -63,7 +63,7 @@ export class ShoppingCartComponent {
 
   handlePriceChangeEvent() {
     this.refreshCart();
-    
+
   }
 
   refreshCart() {
@@ -106,101 +106,105 @@ export class ShoppingCartComponent {
       const price = cartItem.item.price ?? 0;
       this.itemsPrice += price * cartItem.amount;
     }
-    console.log('item price: ', this.itemsPrice);    
+    console.log('item price: ', this.itemsPrice);
   }
 
-  calculateDeliveryCost(){
-    if(!this.restaurant.offersDelivery) {
+  calculateDeliveryCost() {
+    if (!this.restaurant.offersDelivery) {
       this.deliveryCost = 0;
       return;
     }
 
-    let distance:number = convertDistance(getDistance(
+    let distance: number = convertDistance(getDistance(
       this.userLocation,
-      {latitude: this.restaurant.latitude!, longitude: this.restaurant.longitude!}
+      { latitude: this.restaurant.latitude!, longitude: this.restaurant.longitude! }
     ), 'km');
-    
-    for (const dc of this.restaurant.deliveryConditions!){
-      if(distance >= dc.distance!) 
+
+    for (const dc of this.restaurant.deliveryConditions!) {
+      if (distance >= dc.distance!)
         this.deliveryCost = dc.deliveryCost!
       else break;
-    }    
-    console.log('delivery cost: ', this.deliveryCost);    
+    }
+    console.log('delivery cost: ', this.deliveryCost);
   }
 
-  calculatePriceTotal(){
-    if(!this.restaurant.offersDelivery) 
+  calculatePriceTotal() {
+    if (!this.restaurant.offersDelivery)
       this.totalPrice = this.itemsPrice;
-    else 
-      this.totalPrice = this.itemsPrice + this.deliveryCost;    
+    else
+      this.totalPrice = this.itemsPrice + this.deliveryCost;
     console.log('total:', this.totalPrice);
-    
+
   }
 
-  getMinimumOrderTotal():number{
-    let result:number = -1;
-    if(this.restaurant.deliveryConditions){
-      for(let i = this.restaurant.deliveryConditions?.length - 1; i >= 0; i--){
-        if(convertDistance(getDistance(
+  getMinimumOrderTotal(): number {
+    let result: number = -1;
+    if (this.restaurant.deliveryConditions) {
+      for (let i = this.restaurant.deliveryConditions?.length - 1; i >= 0; i--) {
+        if (convertDistance(getDistance(
           this.userLocation,
-          {latitude: this.restaurant.latitude!, longitude: this.restaurant.longitude!}
-        ), 'km') > this.restaurant.deliveryConditions[i].distance!){
+          { latitude: this.restaurant.latitude!, longitude: this.restaurant.longitude! }
+        ), 'km') > this.restaurant.deliveryConditions[i].distance!) {
           result = this.restaurant.deliveryConditions[i].minOrderTotal!;
         }
-      }      
+      }
     }
     return result === -1 ? this.restaurant.minOrderTotal! : result;
   }
 
-  formatCurrency(amount:number):string | null {
+  formatCurrency(amount: number): string | null {
     return this.currencyPipe.transform(amount, 'EUR');
   }
 
-  updateErrors(){
+  updateErrors() {
     this.errors = [];
-    if(!this.address)
+    if (!this.address)
       this.errors.push('You must enter an address');
 
     let minOrderTotal = this.getMinimumOrderTotal()
-    if(this.itemsPrice > minOrderTotal)
+    if (this.itemsPrice > minOrderTotal)
       this.errors.push(`You must order for at least ${this.formatCurrency(minOrderTotal)}`);
 
-    if(!this.authenticationService.isLoggedIn()){
+    if (!this.authenticationService.isLoggedIn()) {
       this.errors.push('You must be logged in to order')
     }
   }
 
   submitOrder() {
-    let menuItems: OrderMenuItem[] = [];
+    this.updateErrors();
+    if (this.errors.length == 0) {
 
-    for (let item of this.shoppingCartItems) {
-      menuItems.push(new OrderMenuItem(
-        item.item.id ?? '',
-        item.item.name ?? '',
-        item.item.category ?? '',
-        item.item.description ?? '',
-        item.item.price ?? 0,
-        item.amount ?? ''
-      ))
+      let menuItems: OrderMenuItem[] = [];
+
+      for (let item of this.shoppingCartItems) {
+        menuItems.push(new OrderMenuItem(
+          item.item.id ?? '',
+          item.item.name ?? '',
+          item.item.category ?? '',
+          item.item.description ?? '',
+          item.item.price ?? 0,
+          item.amount ?? ''
+        ))
+      }
+
+      let order: Order = new Order(
+        '',
+        this.restaurant.id ?? '',
+        this.authenticationService.getLoggedInUserName() ?? '',
+        this.address,
+        'In Preparation',
+        new Date(),
+        menuItems
+      )
+      this.orderDataService.placeOrder(order).subscribe(
+        res => console.log(res)
+      );
+
+      this.orderDataService.placeOrder(order).subscribe((res: boolean) => {
+        if (res)
+          this.router.navigate(['../userOrders']);
+      })
+
     }
-
-    let order: Order = new Order(
-      '',
-      this.restaurant.id ?? '',
-      this.authenticationService.getLoggedInUserName() ?? '',
-      this.address,
-      'In Preparation',
-      new Date(),
-      menuItems
-    )
-    this.orderDataService.placeOrder(order).subscribe(
-      res => console.log(res)
-    );
-
-    this.orderDataService.placeOrder(order).subscribe((res:boolean) => {
-      if(res)
-        this.router.navigate(['../userOrders']);
-    })
-
   }
 }
