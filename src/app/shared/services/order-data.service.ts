@@ -23,9 +23,12 @@ export class OrderDataService {
     .pipe(catchError(this.errorHandler))
   }
 
-  placeOrder(order:Order):Observable<any>{        
+  placeOrder(order:Order):Observable<boolean>{        
     return this.httpClient.post<any>(`${environment.server}/orders/${order.restaurantId}`, order)
-      .pipe(catchError(this.errorHandler));
+    .pipe(
+      map((res: HttpResponse<any>) => res.status === 204),
+      catchError(this.errorHandler)
+    );
   }
 
   getOrdersForRestaurant(restaurantId:string):Observable<Order[]>{

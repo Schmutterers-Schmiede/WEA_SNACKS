@@ -21,15 +21,11 @@ export class OrderListComponent {
   ) { }
 
   ngOnInit() {
-    console.log(this.mode);
-    
     if (this.mode === 'owner') {
       this.restaurantDataService.getRestaurantForUsername(this.authenticationService.getLoggedInUserName()).subscribe((restaurant: Restaurant) => {
         console.log(restaurant);        
         this.orderDataService.getOrdersForRestaurant(restaurant.id!).subscribe((orders: Order[]) => {
           this.orders = orders;          
-          console.log(orders);
-          
         });
       });
     }

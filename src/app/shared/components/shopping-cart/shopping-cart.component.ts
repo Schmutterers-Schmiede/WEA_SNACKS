@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { MenuDataService } from '../../services/menu-data-service.service';
-import { MenuItem } from '../../Entities/MenuItem';
 import { IShoppingCartItem } from '../../interfaces/IShoppingCartItem';
-import { Location, } from '@angular/common'
+import { CurrencyPipe, Location, } from '@angular/common'
 import { Router } from '@angular/router';
 import { RestaurantDataService } from '../../services/restaurant-data-service.service';
 import { Restaurant } from '../../Entities/Restaurant';
@@ -12,6 +10,7 @@ import { OrderDataService } from '../../services/order-data.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ILocation } from '../../interfaces/ILocation';
 import { convertDistance, getDistance } from 'geolib';
+import { ResourceLoader } from '@angular/compiler';
 
 
 @Component({
@@ -26,7 +25,9 @@ export class ShoppingCartComponent {
     private location: Location,
     private restaurantDataService: RestaurantDataService,
     private authenticationService: AuthenticationService,
-    private orderDataService: OrderDataService
+    private orderDataService: OrderDataService,
+    private currencyPipe: CurrencyPipe,
+    private router:Router
   ) { }
 
   public shoppingCartItems: IShoppingCartItem[] = [];
@@ -136,50 +137,70 @@ export class ShoppingCartComponent {
     
   }
 
-  submitOrder() {
-    if (this.authenticationService.isLoggedIn()) {
-      if(this.itemsPrice > this.restaurant.minOrderTotal!){
-
-      
-        let menuItems: OrderMenuItem[] = [];
-
-        for (let item of this.shoppingCartItems) {
-          menuItems.push(new OrderMenuItem(
-            item.item.id ?? '',
-            item.item.name ?? '',
-            item.item.category ?? '',
-            item.item.description ?? '',
-            item.item.price ?? 0,
-            item.amount ?? ''
-          ))
+  getMinimumOrderTotal():number{
+    let result:number = -1;
+    if(this.restaurant.deliveryConditions){
+      for(let i = this.restaurant.deliveryConditions?.length - 1; i >= 0; i--){
+        if(convertDistance(getDistance(
+          this.userLocation,
+          {latitude: this.restaurant.latitude!, longitude: this.restaurant.longitude!}
+        ), 'km') > this.restaurant.deliveryConditions[i].distance!){
+          result = this.restaurant.deliveryConditions[i].minOrderTotal!;
         }
-
-        if (this.address.length > 0) {
-          let order: Order = new Order(
-            '',
-            this.restaurant.id ?? '',
-            this.authenticationService.getLoggedInUserName() ?? '',
-            this.address,
-            'In Preparation',
-            new Date(),
-            menuItems
-          )
-          this.orderDataService.placeOrder(order).subscribe(
-            res => console.log(res)
-          );
-        }
-        else {
-          this.errors = [];
-          this.errors.push('Address is required');
-        }
-      }else{
-        const error:string = 'Your Order must be at least ' + this.restaurant.minOrderTotal + 'EUR'
-        if(!this.errors.includes(error))
-          this.errors.push(error);
-      }
-    }else{
-      this.errors = [];
-      this.errors.push('You must be logged in to place an order.');
+      }      
     }
+    return result === -1 ? this.restaurant.minOrderTotal! : result;
+  }
+
+  formatCurrency(amount:number):string | null {
+    return this.currencyPipe.transform(amount, 'EUR');
+  }
+
+  updateErrors(){
+    this.errors = [];
+    if(!this.address)
+      this.errors.push('You must enter an address');
+
+    let minOrderTotal = this.getMinimumOrderTotal()
+    if(this.itemsPrice > minOrderTotal)
+      this.errors.push(`You must order for at least ${this.formatCurrency(minOrderTotal)}`);
+
+    if(!this.authenticationService.isLoggedIn()){
+      this.errors.push('You must be logged in to order')
+    }
+  }
+
+  submitOrder() {
+    let menuItems: OrderMenuItem[] = [];
+
+    for (let item of this.shoppingCartItems) {
+      menuItems.push(new OrderMenuItem(
+        item.item.id ?? '',
+        item.item.name ?? '',
+        item.item.category ?? '',
+        item.item.description ?? '',
+        item.item.price ?? 0,
+        item.amount ?? ''
+      ))
+    }
+
+    let order: Order = new Order(
+      '',
+      this.restaurant.id ?? '',
+      this.authenticationService.getLoggedInUserName() ?? '',
+      this.address,
+      'In Preparation',
+      new Date(),
+      menuItems
+    )
+    this.orderDataService.placeOrder(order).subscribe(
+      res => console.log(res)
+    );
+
+    this.orderDataService.placeOrder(order).subscribe((res:boolean) => {
+      if(res)
+        this.router.navigate(['../userOrders']);
+    })
+
   }
 }
