@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IShoppingCartItem } from '../../interfaces/IShoppingCartItem';
-import { CurrencyPipe, Location, } from '@angular/common'
+import { Location, } from '@angular/common'
 import { Router } from '@angular/router';
 import { RestaurantDataService } from '../../services/restaurant-data-service.service';
 import { Restaurant } from '../../Entities/Restaurant';
@@ -26,7 +26,7 @@ export class ShoppingCartComponent {
     private restaurantDataService: RestaurantDataService,
     private authenticationService: AuthenticationService,
     private orderDataService: OrderDataService,
-    private currencyPipe: CurrencyPipe,
+    
     private router: Router
   ) { }
 
@@ -35,7 +35,7 @@ export class ShoppingCartComponent {
   public restaurant: Restaurant = new Restaurant();
   public address: string = '';
   public errors: string[] = []
-
+  public minOrderTotal:number = 0;
 
   userLocation!: ILocation;
   public totalPrice: number = 0;
@@ -85,8 +85,10 @@ export class ShoppingCartComponent {
       this.calculatePriceItemsOnly();
       this.calculateDeliveryCost();
       this.calculatePriceTotal();
+      this.minOrderTotal = this.getMinimumOrderTotal();
     });
     this.getUserLocation();
+    
   }
 
   goBack() {
@@ -152,18 +154,14 @@ export class ShoppingCartComponent {
     return result === -1 ? this.restaurant.minOrderTotal! : result;
   }
 
-  formatCurrency(amount: number): string | null {
-    return this.currencyPipe.transform(amount, 'EUR');
-  }
 
   updateErrors() {
     this.errors = [];
     if (!this.address)
       this.errors.push('You must enter an address');
 
-    let minOrderTotal = this.getMinimumOrderTotal()
-    if (this.itemsPrice > minOrderTotal)
-      this.errors.push(`You must order for at least ${this.formatCurrency(minOrderTotal)}`);
+    if (this.itemsPrice > this.minOrderTotal)
+      this.errors.push(`You must order for at least ${this.minOrderTotal} EUR`);
 
     if (!this.authenticationService.isLoggedIn()) {
       this.errors.push('You must be logged in to order')
