@@ -1,0 +1,103 @@
+<form class="card p-2 w-25 mx-auto mt-3" 
+    #restaurantEditForm="ngForm"
+    (ngSubmit)="createRestaurant()">
+
+    <h2>Create new Restaurant</h2>
+  <div class="form-group mb-3">
+    <label>Name:</label>
+    <input  name="name"
+            type="text"    
+            [(ngModel)]="restaurant.name"
+            class="form-control">
+    <div *ngIf="errors['name']">
+      {{errors['name']}}
+    </div>
+  </div>
+
+  <div class="form-group mb-3">
+    <label>Address:</label>
+    <input  name="address"
+            type="text" 
+            [(ngModel)]="restaurant.address"
+            class="form-control">
+    <div *ngIf="errors['address']">
+      {{errors['address']}}
+    </div>
+  </div>
+
+  <section class="d-flex justify-content-between">
+
+    <div class="form-group mb-3">
+      <label>GPS Latitude:</label>
+      <input  name="latitude"
+              type="number" 
+              [(ngModel)]="restaurant.latitude"
+              class="form-control">
+      <div *ngIf="errors['latitude']">
+        {{errors['latitude']}}
+      </div>
+    </div>
+
+    <div class="form-group mb-3">
+      <label>GPS Longitude:</label>
+      <input  name="longitude"
+              type="number" 
+              [(ngModel)]="restaurant.longitude"
+              class="form-control">
+      <div *ngIf="errors['longitude']">
+        {{errors['longitude']}}
+      </div>
+    </div>
+
+  </section>
+
+  <div class="form-group mb-3">
+    <label>Business Hours:</label>
+    <input  name="hours"
+            type="text" 
+            [(ngModel)]="restaurant.hours"
+            class="form-control">
+    <div *ngIf="errors['hours']">
+      {{errors['hours']}}
+    </div>
+  </div>
+
+  <div class="form-group mb-3">
+    <label>Minimum order total:</label>
+    <input  name="minOrderTotal"    
+            type="number" 
+            (change)="handleChange()"
+            [(ngModel)]="restaurant.minOrderTotal"
+            class="form-control">
+    <div *ngIf="errors['minOrderTotal']">
+      {{errors['minOrderTotal']}}
+    </div>
+  </div>
+
+  <label>Service offered:</label>
+  <div class="form-check d-flex " id="deliveryRadioGroup">
+    <div>
+      <label class="form-check-label" for="deliveryPickupRadio">Pickup</label>
+      <input  
+              type="radio" 
+              id="deliveryPickupRadio" 
+              name="serviceRadios" 
+              [value]="false"
+              [(ngModel)]="restaurant.offersDelivery"
+              class="form-check-input">
+    </div>
+    <div class="ms-5">
+      <label class="form-check-label" for="deliveryPickupRadio">Delivery</label>
+      <input  
+              type="radio" 
+              id="deliveryPickupRadio" 
+              name="serviceRadios" 
+              [value]="true"
+              [(ngModel)]="restaurant.offersDelivery"
+              class="form-check-input">
+    </div>
+  </div>
+  <div class="d-flex flex-column mt-2">
+    <button type="submit" [disabled]="restaurantEditForm.disabled" class="btn btn-primary mb-1">Create</button>    
+  </div>
+</form>

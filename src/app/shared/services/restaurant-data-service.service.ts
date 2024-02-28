@@ -30,7 +30,7 @@ export class RestaurantDataService {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;        
+        this.longitude = position.coords.longitude;
       });
     } else {
       console.log('geolocation not supported');
@@ -131,5 +131,25 @@ export class RestaurantDataService {
         map((res: HttpResponse<any>) => res.status === 200),
         catchError(this.errorHandler)
       );
+  }
+
+  createRestaurant(restaurant:Restaurant, username:string):Observable<boolean>{
+    return this.httpClient.post(`${environment.server}/restaurants`, {
+      "name": restaurant.name,
+      "address": restaurant.address,   
+      "latitude": restaurant.latitude,
+      "longitude": restaurant.longitude,
+      "hours": restaurant.hours,
+      "minOrderTotal": restaurant.minOrderTotal,
+      "webhook": "placeholder",
+      "logoPath": restaurant.logo,
+      "offersDelivery": restaurant.offersDelivery,    
+      "apiKey": username,
+      "deliveryConditions": []
+    }, { observe: 'response' })
+    .pipe(
+      map((res: HttpResponse<any>) => res.status === 200),
+      catchError(this.errorHandler)
+    );    
   }
 }
