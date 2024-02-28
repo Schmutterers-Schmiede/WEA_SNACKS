@@ -21,16 +21,8 @@ export class RestaurantManagementComponent {
 
   restaurant!:Restaurant;
 
-  handleEditRestaurantClick(){
-    this.router.navigate(['editRestaurant'], {relativeTo: this.route});
-  }
-
-  handleEditDeliveryConditionsClick(){
-    this.router.navigate(['editDeliveryConditions'], {relativeTo: this.route});
-  }
-
-  handleManageOrdersClick(){
-    this.router.navigate(['manageOrders'], {relativeTo: this.route})
+  navigateToMenu(route:string){
+    this.router.navigate([route], {relativeTo: this.route})
   }
 
   ngOnInit(){

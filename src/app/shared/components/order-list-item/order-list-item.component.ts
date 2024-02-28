@@ -26,21 +26,20 @@ export class OrderListItemComponent {
     this.router.navigate(['/userOrders/', this.order.id])
   }
 
-  handleUpdateClick(){
+  handleUpdateClick(){    
     this.orderDataService.updateOrderStatus(
       this.order.id, 
       this.orderStates.indexOf(this.order.status) + 1, 
       this.authenticationService.getLoggedInUserName()
-    ).subscribe((res:boolean) => console.log('update successful'));
+    ).subscribe((res:boolean) => {
+      if(res)
+        this.ngOnInit();
+    });
     
   }
 
-  ngOnInit(){
+  ngOnInit(){    
     this.restaurantDataService.getRestaurantById(this.order.restaurantId)
       .subscribe(res => this.restaurantName = res.name ?? '');
-    
-    
-    
-      
   }
 }

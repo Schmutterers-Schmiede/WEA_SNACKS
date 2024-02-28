@@ -29,6 +29,7 @@ export class OrderDetailsComponent {
     this.orderDataService.getOrderById(params['id']).subscribe(res => {
       this.order = res;
       // console.log(this.order);
+      console.log(res);
       
       this.restaurantDataService.getRestaurantById(this.order.restaurantId).subscribe(res => this.restaurant = res ?? '');
       
@@ -36,8 +37,6 @@ export class OrderDetailsComponent {
         this.total += item.price ?? 0; 
       }
     });
-    
-    
   }
 
   goBack(){

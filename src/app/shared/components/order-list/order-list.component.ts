@@ -21,6 +21,8 @@ export class OrderListComponent {
   ) { }
 
   ngOnInit() {
+    console.log(this.mode);
+    
     if (this.mode === 'owner') {
       this.restaurantDataService.getRestaurantForUsername(this.authenticationService.getLoggedInUserName()).subscribe((restaurant: Restaurant) => {
         console.log(restaurant);        

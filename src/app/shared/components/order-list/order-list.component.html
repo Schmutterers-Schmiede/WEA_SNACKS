@@ -1,6 +1,6 @@
-<div class="mx-auto mt-5">
+<div class="mx-auto">
   <app-order-list-item class="text-decoration-none"
-    mode="owner"
+    mode="{{this.mode}}"
     *ngFor="let o of orders" 
     [order]="o">    
   </app-order-list-item>
