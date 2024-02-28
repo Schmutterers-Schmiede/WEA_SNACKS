@@ -5,6 +5,11 @@ import { RestaurantMenuComponent } from './shared/components/restaurant-menu/res
 import { ShoppingCartComponent } from './shared/components/shopping-cart/shopping-cart.component';
 import { UserOrdersComponent } from './shared/components/user-orders/user-orders.component';
 import { OrderDetailsComponent } from './shared/components/order-details/order-details.component';
+import { RestaurantManagementComponent } from './shared/components/restaurant-management/restaurant-management.component';
+import { RestaurantEditComponent } from './shared/components/restaurant-edit/restaurant-edit.component';
+import { DeliveryConditionEditComponent } from './shared/components/delivery-condition-edit/delivery-condition-edit.component';
+import { RestaurantOrdersComponent } from './shared/components/restaurant-orders/restaurant-orders.component';
+import { MenuEditComponent } from './shared/components/menu-edit/menu-edit.component';
 
 const routes: Routes = [
   {
@@ -36,6 +41,16 @@ const routes: Routes = [
   {
     path: 'userOrders/:id',
     component: OrderDetailsComponent
+  },
+  {
+    path: 'RestaurantManagement',
+    component: RestaurantManagementComponent,
+    children: [
+      {path: 'editRestaurant', component: RestaurantEditComponent},
+      {path: 'editDeliveryConditions', component: DeliveryConditionEditComponent},
+      {path: 'manageOrders', component:RestaurantOrdersComponent},
+      {path: 'editMenu', component:MenuEditComponent}
+    ]
   }
   
 

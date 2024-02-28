@@ -1,0 +1,40 @@
+<div class="card w-100 mb-2 border-0">
+  <div class="card p-2 shadow border-0 grid container">
+
+    <div class="row row-cols-3">
+
+      <div class="form-group d-flex flex-column">
+        <label>Name:</label>
+        <input type="text" [(ngModel)]="menuItem.name">
+      </div>
+
+      <div class="form-group d-flex flex-column">
+        <label>Price:</label>
+        <input type="number" [(ngModel)]="menuItem.price">
+      </div>
+
+      <div class="form-group d-flex flex-column mb-2">
+        <label>Category:</label>
+
+        <select [(ngModel)]="menuItem.category" style="height: 1.85rem;">
+          <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="form-group d-flex flex-column">
+      <label>Description:</label>
+      <textarea [(ngModel)]="menuItem.description"></textarea>
+    </div>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-secondary w-50 me-2" (click)="handleUpdateClick()">Update</button>
+      <button class="btn btn-danger w-50" (click)="handleDeleteClick()">Delete</button>
+    </div>
+
+  </div>
+  
+  
+</div>

@@ -4,6 +4,7 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { authConfig } from './auth.config';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { RestaurantDataService } from './shared/services/restaurant-data-service.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -20,17 +21,26 @@ export class AppComponent {
     private restaurantDataService: RestaurantDataService,
     private oauthService: OAuthService,
     private authenticationService: AuthenticationService,
+    private router:Router
   ) {
-    this.configureWithNewConfigApi();
-    console.log('appcomponent constructor')
+    this.configureWithNewConfigApi();    
   }
 
   handleLoginClick() {
     this.authenticationService.login();
+    this.isLoggedIn = this.authenticationService.isLoggedIn();
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+        this.ngOnInit();
+      }
+    })
   }
 
   handleLogoutClick() {
     this.authenticationService.logout();
+    this.isLoggedIn = false;
+    this.hasRestaurant = false;
+    this.username = '';
   }
 
   private configureWithNewConfigApi() {
@@ -39,16 +49,24 @@ export class AppComponent {
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
 
-  ngOnInit() {
-    let name = this.authenticationService.getLoggedInUserName();
-    console.log(name);
+  private handleTokenReceived() {
+    this.isLoggedIn = this.authenticationService.isLoggedIn();
+    this.username = this.authenticationService.getLoggedInUserName();
+    if (this.isLoggedIn) {
+      this.restaurantDataService.restaurantExistsForUser(this.username).subscribe((res) => {
+        this.hasRestaurant = res;
+      });
+    }
+  }
+  
+  ngOnInit() {    
+    
+    let name = this.authenticationService.getLoggedInUserName();    
     this.username = name
     this.isLoggedIn = this.authenticationService.isLoggedIn();
     if (this.isLoggedIn) {
       this.restaurantDataService.restaurantExistsForUser(this.username).subscribe((res) => {
         this.hasRestaurant = res;        
-        console.log('has restaurant: ', res);
-        
       });
     }
   }

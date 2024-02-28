@@ -1,7 +1,7 @@
-<div class="mx-auto mt-5">
-  <a class="app-order-list-item text-decoration-none"
+<div class="mx-auto">
+  <app-order-list-item class="text-decoration-none"
+    mode="{{this.mode}}"
     *ngFor="let o of orders" 
-    [order]="o"
-    [routerLink]="o.id">
-  </a>
+    [order]="o">    
+  </app-order-list-item>
 </div>

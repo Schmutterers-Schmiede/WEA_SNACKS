@@ -4,10 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { HttpClientModule } from '@angular/common/http';
 import { RestaurantListItemComponent } from './shared/components/restaurant-list-item/restaurant-list-item.component';
 import { RestaurantListComponent } from './shared/components/restaurant-list/restaurant-list.component';
-import { HomeComponent } from './shared/components/home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantMenuComponent } from './shared/components/restaurant-menu/restaurant-menu.component';
 import { MenuListItemComponent } from './shared/components/menu-list-item/menu-list-item.component';
@@ -20,13 +21,20 @@ import { OrderListComponent } from './shared/components/order-list/order-list.co
 import { UserOrdersComponent } from './shared/components/user-orders/user-orders.component';
 import { OrderDetailsComponent } from './shared/components/order-details/order-details.component';
 import { OrderMenuItemListComponent } from './shared/components/order-menu-item-list/order-menu-item-list.component';
+import { RestaurantManagementComponent } from './shared/components/restaurant-management/restaurant-management.component';
+import { RestaurantEditComponent } from './shared/components/restaurant-edit/restaurant-edit.component';
+import { DeliveryConditionEditComponent } from './shared/components/delivery-condition-edit/delivery-condition-edit.component';
+import { DeliveryConditionListItemComponent } from './shared/components/delivery-condition-list-item/delivery-condition-list-item.component';
+import { RestaurantOrdersComponent } from './shared/components/restaurant-orders/restaurant-orders.component';
+import { MenuEditComponent } from './shared/components/menu-edit/menu-edit.component';
+import { MenuEditListItemComponent } from './shared/components/menu-edit-list-item/menu-edit-list-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RestaurantListItemComponent,
     RestaurantListComponent,
-    HomeComponent,
+    
     RestaurantMenuComponent,
     MenuListItemComponent,
     ShoppingCartComponent,
@@ -35,7 +43,14 @@ import { OrderMenuItemListComponent } from './shared/components/order-menu-item-
     OrderListComponent,
     UserOrdersComponent,
     OrderDetailsComponent,
-    OrderMenuItemListComponent
+    OrderMenuItemListComponent,
+    RestaurantManagementComponent,
+    RestaurantEditComponent,
+    DeliveryConditionEditComponent,
+    DeliveryConditionListItemComponent,
+    RestaurantOrdersComponent,
+    MenuEditComponent,
+    MenuEditListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +58,7 @@ import { OrderMenuItemListComponent } from './shared/components/order-menu-item-
     HttpClientModule,
     NgbModule,
     FormsModule,
+    ReactiveFormsModule,
     OAuthModule.forRoot()
   ],
   providers: [],

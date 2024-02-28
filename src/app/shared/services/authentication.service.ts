@@ -35,7 +35,7 @@ export class AuthenticationService {
   getLoggedInUserName(){
     let userClaims: any = this.getIdentityClaims();
     if(userClaims){
-      //console.log('user claims: ', userClaims);      
+      // console.log('user claims: ', userClaims);      
       return userClaims.preferred_username;
     }
     else 
